@@ -161,7 +161,7 @@ generate_config() {
 }
 
 # Make directory for mutable configs exists
-mkdir -pv "$GENERATED_CONFIG_DIR"
+mkdir -p "$GENERATED_CONFIG_DIR"
 
 # Use configs from environment if defined, otherwise releases/VSN
 if [ -z "$RELEASE_CONFIG_DIR" ]; then
