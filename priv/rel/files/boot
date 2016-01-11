@@ -17,6 +17,7 @@ CONFORM_OPTS=""
 PIPE_DIR="$RELEASE_ROOT_DIR/tmp/erl_pipes/{{{PROJECT_NAME}}}/"
 ERTS_DIR=""
 ROOTDIR=""
+ERL_LIB_DIR=""
 
 GENERATED_CONFIG_DIR="${RELEASE_ROOT_DIR}/running-config"
 # Check for $RELEASE_MUTABLE_DIR
@@ -55,6 +56,7 @@ find_erts_dir() {
         __erl_root="$("$__erl" -noshell -eval "$__code" -s init stop)"
         ERTS_DIR=$(ls -d $__erl_root/erts-* | sort -t '.' -k 1,1 -k 2,2 -k 3,3 -k 4,4 -k 5,5 -g | tail -n 1)
         ROOTDIR="$__erl_root"
+        ERL_LIB_DIR="$__erl_root/lib"
     fi
 }
 
@@ -569,8 +571,8 @@ case "$1" in
         set -- "$BINDIR/erlexec" \
             -boot "$BOOTFILE" -config "$SYS_CONFIG" \
             -boot_var ERTS_LIB_DIR "$ERTS_LIB_DIR" \
-            -env ERL_LIBS "$REL_LIB_DIR" \
             -pa "$CONSOLIDATED_DIR" \
+            -env ERL_LIBS "$REL_LIB_DIR:$ERL_LIB_DIR" \
             -args_file "$VMARGS_PATH" \
             ${__console_flags} \
             ${ERL_OPTS} \
@@ -613,8 +615,8 @@ case "$1" in
         set -- "$BINDIR/erlexec" $FOREGROUNDOPTIONS \
             -boot "$REL_DIR/$BOOTFILE" -mode embedded -config "$SYS_CONFIG" \
             -boot_var ERTS_LIB_DIR "$ERTS_LIB_DIR" \
-            -env ERL_LIBS "$REL_LIB_DIR" \
             -pa "$CONSOLIDATED_DIR" \
+            -env ERL_LIBS "$REL_LIB_DIR:$ERL_LIB_DIR" \
             ${ERL_OPTS} \
             ${CONFORM_OPTS} \
             -args_file "$VMARGS_PATH"
