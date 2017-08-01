@@ -86,7 +86,7 @@ defmodule Mix.Tasks.Release.Plugins do
   end
 
   defp parse_args(args) do
-    case OptionParser.parse(args) do
+    case OptionParser.parse(args, allow_nonexistent_atoms: true) do
       {_, [], _} -> [action: :list]
       {_, [plugin], _} -> [action: :details, plugin: plugin]
       {_, _, _} ->

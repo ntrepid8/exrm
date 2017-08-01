@@ -433,7 +433,7 @@ defmodule Mix.Tasks.Release do
   end
 
   defp parse_args(argv) do
-    {args, _, _} = OptionParser.parse(argv)
+    {args, _, _} = OptionParser.parse(argv, allow_nonexistent_atoms: true)
     defaults = %Config{
       name:    Mix.Project.config |> Keyword.get(:app) |> Atom.to_string,
       version: Mix.Project.config |> Keyword.get(:version),
